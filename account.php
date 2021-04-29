@@ -141,6 +141,7 @@ if (@$_GET['q'] == 1) {
 }
 ?>
 <?php
+	error_reporting(0);
 if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_SESSION['6e447159425d2d']) && $_SESSION['6e447159425d2d'] == "6e447159425d2d" && $_GET['endquiz'] == 'end') {
     unset($_SESSION['6e447159425d2d']);
     $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE email='$_SESSION[email]' AND eid='$_GET[eid]' ") or die('Error197');
@@ -262,15 +263,15 @@ function enable(){
     document.getElementById(\'countdown\').innerHTML = minutes + ":" +    remainingSeconds;
     if (seconds <= 0) {
         clearInterval(countdownTimer);
-        document.getElementById(\'countdown\').innerHTML = "Buzz Buzz...";
-        window.location ="location:account.php?q=result&eid=" . $_GET[eid];
+        document.getElementById(\'countdown\').innerHTML = "Time Out";
+        window.location ="account.php?q=quiz&step=2&eid=' . $_GET["eid"] . '&n=' . $_GET["n"] . '&t=' . $_GET['t'] . '&endquiz=end";
     } else {    
         seconds--;
     }
     }
 var countdownTimer = setInterval(\'secondPassed()\', 1000);
 </script>';
-            echo '<font size="3" style="margin-left:100px;font-family:\'typo\' font-size:20px; font-weight:bold;color:darkred">Time Left : </font><span class="timer btn btn-default" style="margin-left:20px;"><font style="font-family:\'typo\';font-size:20px;font-weight:bold;color:darkblue" id="countdown"></font></span><span class="timer btn btn-primary" style="margin-left:50px" onclick="end()"><span class=" glyphicon glyphicon-off"></span>&nbsp;&nbsp;<font style="font-size:12px;font-weight:bold">Finish Quiz</font></span>';
+            echo '<font size="3" style="margin-left:100px;font-family:\'typo\' font-size:20px; font-weight:bold;color:darkred">Time Left : </font><span class="timer " style="margin-left:20px;"><font style="font-family:\'typo\';font-size:20px;font-weight:bold;color:darkblue" id="countdown"></font></span><span class="timer btn btn-primary" style="margin-left:50px" onclick="end()"><span class=" glyphicon glyphicon-off"></span>&nbsp;&nbsp;<font style="font-size:12px;font-weight:bold">Finish Quiz</font></span>';
             $eid   = @$_GET['eid'];
             $sn    = @$_GET['n'];
             $total = @$_GET['t'];
@@ -308,7 +309,6 @@ var countdownTimer = setInterval(\'secondPassed()\', 1000);
                 echo '<br /><button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit</font></button>&nbsp;&nbsp;&nbsp;&nbsp;</form><br><br>';
             } else if ($_GET["t"] > $_GET["n"] && $_GET["n"] == 1) {
                 echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit<font></button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="account.php?q=quiz&step=2&eid=' . $eid . '&n=' . ($sn + 1) . '&t=' . $total . '" class="btn btn-primary" style="height:30px"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"  style="font-size:12px"></span></a></form><br><br>';
-            } else {
             }
             echo '</div>';
             echo '<div class="panel" style="text-align:center">';

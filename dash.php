@@ -1,5 +1,5 @@
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 <link rel="icon" href="favicon.ico" type="image/icon" sizes="16x16">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -106,13 +106,13 @@ include_once 'dbConnection.php';
 session_start();
 if (!(isset($_SESSION['username']))  || ($_SESSION['key']) != '54585c506829293a2d4c3b68543b316e2e7a2d277858545a36362e5f39') {
     session_destroy();
-    header("location:index.php");
+    header("location:admin.php");
 } else {
     $name     = $_SESSION['name'];
     $username = $_SESSION['username'];
     
     include_once 'dbConnection.php';
-    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1" style="color:lightyellow">' . $name . '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="logout_admin.php?q=account.php" style="color:lightyellow"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
+    echo '<span class="pull-right top title1" ><span style="color:white"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hello,</span> <span class="log log1" style="color:lightyellow">Admin &nbsp;&nbsp;|&nbsp;&nbsp;<a href="logout_admin.php?q=account.php" style="color:lightyellow"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</button></a></span>';
 }
 ?>
 
