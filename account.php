@@ -141,7 +141,6 @@ if (@$_GET['q'] == 1) {
 }
 ?>
 <?php
-	error_reporting(0);
 if (@$_GET['q'] == 'quiz' && @$_GET['step'] == 2 && isset($_SESSION['6e447159425d2d']) && $_SESSION['6e447159425d2d'] == "6e447159425d2d" && $_GET['endquiz'] == 'end') {
     unset($_SESSION['6e447159425d2d']);
     $q = mysqli_query($con, "UPDATE history SET status='finished' WHERE email='$_SESSION[email]' AND eid='$_GET[eid]' ") or die('Error197');
@@ -303,12 +302,13 @@ var countdownTimer = setInterval(\'secondPassed()\', 1000);
                 echo '<div class="funkyradio-success"><input type="radio" id="' . $optionid . '" name="ans" value="' . $optionid . '" onclick="enable()"> <label for="' . $optionid . '" style="width:50%"><div style="color:black;font-size:12px;word-wrap:break-word">&nbsp;&nbsp;' . $option . '</div></label></div>';
             }
             echo '</div>';
-            if ($_GET["t"] > $_GET["n"] && $_GET["n"] != 1) {
-                echo '<br /><button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit</font></button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="account.php?q=quiz&step=2&eid=' . $eid . '&n=' . ($sn + 1) . '&t=' . $total . '" class="btn btn-primary" style="height:30px"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"  style="font-size:12px"></span></a></form><br><br>';
+			
+			if ($_GET["t"] > $_GET["n"] && $_GET["n"] != 1) {
+                echo '<br /><button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold" > Submit</font></button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="account.php?q=quiz&step=2&eid=' . $eid . '&n=' . ($sn + 1) . '&t=' . $total . '" class="btn btn-primary" style="height:30px"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"  style="font-size:12px"></span></a></form><br><br>';
             } else if ($_GET["t"] == $_GET["n"]) {
                 echo '<br /><button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit</font></button>&nbsp;&nbsp;&nbsp;&nbsp;</form><br><br>';
             } else if ($_GET["t"] > $_GET["n"] && $_GET["n"] == 1) {
-                echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-default" disabled="true" id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit<font></button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="account.php?q=quiz&step=2&eid=' . $eid . '&n=' . ($sn + 1) . '&t=' . $total . '" class="btn btn-primary" style="height:30px"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"  style="font-size:12px"></span></a></form><br><br>';
+                echo '<br />&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-default" disabled="true"  id="sbutton" style="height:30px"><span class="glyphicon glyphicon-lock" style="font-size:12px" aria-hidden="true"></span><font style="font-size:12px;font-weight:bold"> Submit<font></button>&nbsp;&nbsp;&nbsp;&nbsp;<a href="account.php?q=quiz&step=2&eid=' . $eid . '&n=' . ($sn + 1) . '&t=' . $total . '" class="btn btn-primary" style="height:30px"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"  style="font-size:12px"></span></a></form><br><br>';
             }
             echo '</div>';
             echo '<div class="panel" style="text-align:center">';
@@ -438,80 +438,9 @@ if (@$_GET['q'] == 2) {
     }
     echo '</table></div>';
 }
-if (@$_GET['q'] == 3) {
-    if(isset($_GET['show'])){
-        $show = $_GET['show'];
-        $showfrom = (($show-1)*10) + 1;
-        $showtill = $showfrom + 9;
-    }
-    else{
-        $show = 1;
-        $showfrom = 1;
-        $showtill = 10;
-    }
-    $q = mysqli_query($con, "SELECT * FROM rank") or die('Error223');
-    echo '<div class="panel title">
-<table class="table table-striped title1" >
-<tr><td style="vertical-align:middle"><b>Rank</b></td><td style="vertical-align:middle"><b>Name</b></td><td style="vertical-align:middle"><b>Branch</b></td><td style="vertical-align:middle"><b>email</b></td><td style="vertical-align:middle"><b>Score</b></td></tr>';
-    $c = $showfrom-1;
-    $total = mysqli_num_rows($q);
-    if($total >= $showfrom){
-        $q = mysqli_query($con, "SELECT * FROM rank ORDER BY score DESC, time ASC LIMIT ".($showfrom-1).",10") or die('Error223');
-        while ($row = mysqli_fetch_array($q)) {
-            $e = $row['email'];
-            $s = $row['score'];
-            $q12 = mysqli_query($con, "SELECT * FROM user WHERE email='$e' ") or die('Error231');
-            while ($row = mysqli_fetch_array($q12)) {
-                $name     = $row['name'];
-                $branch   = $row['branch'];
-                $email = $row['email'];
-            }
-            $c++;
-            echo '<tr><td style="color:#99cc32"><b>' . $c . '</b></td><td style="vertical-align:middle">' . $name . '</td><td style="vertical-align:middle">' . $branch . '</td><td style="vertical-align:middle">' . $email . '</td><td style="vertical-align:middle">' . $s . '</td><td style="vertical-align:middle">';
-        }
-    }
-    else{
-    }
-    echo '</table></div>';
-    echo '<div class="panel title"><table class="table table-striped title1" ><tr>';
-    $total = round($total/10) + 1;
-    if(isset($_GET['show'])){
-        $show = $_GET['show'];
-    }
-    else{
-        $show = 1;
-    }
-    if($show == 1 && $total==1){
-    }
-    else if($show == 1 && $total!=1){
-        $i = 1;
-        while($i<=$total){
-            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
-            $i++;
-        }
-        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
-    }
-    else if($show != 1 && $show==$total){
-        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
 
-        $i = 1;
-        while($i<=$total){
-            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
-            $i++;
-        }
-    }
-    else{
-        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show-1).'">&nbsp;<<&nbsp;</a></td>';
-        $i = 1;
-        while($i<=$total){
-            echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.$i.'">&nbsp;'.$i.'&nbsp;</a></td>';
-            $i++;
-        }
-        echo '<td style="vertical-align:middle;text-align:center"><a style="font-size:14px;font-family:typo;font-weight:bold" href="account.php?q=3&show='.($show+1).'">&nbsp;>>&nbsp;</a></td>';
-    }
-    echo '</tr></table></div>';
-}
 ?>
+
 </div></div></div></div>
 </body>
 </html>
