@@ -89,8 +89,9 @@ if (isset($_SESSION['key'])) {
         for ($i = 1; $i <= $n; $i++) {
             $qid  = uniqid();
             $qns  = addslashes($_POST['qns' . $i]);
-            $q3   = mysqli_query($con, "INSERT INTO questions VALUES  (NULL,'$eid','$qid','$qns' , '$ch' , '$i')") or die();
-            $oaid = uniqid();
+			$df  =	$_POST['df' . $i];
+            $q3   = mysqli_query($con,"INSERT INTO `questions`(`id`, `eid`, `qid`, `qns`, `choice`, `difficulty`, `sn`) VALUES (NULL,'$eid','$qid','$qns' , '$ch' ,'$df', '$i')") or die();
+			$oaid = uniqid();
             $obid = uniqid();
             $ocid = uniqid();
             $odid = uniqid();
